@@ -1,5 +1,5 @@
 const request = require('supertest');
-const app = require('../src/app')
+const app = require('../../src/app')
 
 
 it('Deve listar todos os usuários',() => {
@@ -7,17 +7,18 @@ it('Deve listar todos os usuários',() => {
         .get('/users')
         .then((res) => {
             expect(res.status).toBe(200);
-            expect(res.body).toHaveLength(1);
-            expect(res.body[0]).toHaveProperty('name','John')
+            expect(res.body.length).toBeGreaterThan(0);
         })
 })
 
 it('Deve inserir  um novo usuário com sucesso', () => {
+    const mail = `${Date.now()}@mail.com`;
     return request(app)
         .post('/users')
         .send({
             name: 'Clark Kent',
-            email: 'superman@email.com'
+            email: mail,
+            password: '123mudar'
         })
         .then((res) => {
             expect(res.status).toBe(201);
